@@ -6,41 +6,41 @@ const typeDefs = gql`
     hello:  String
   }
 
-  type User {
+  type Pokemon {
     id:       String!
     name:     String!
-    balance:  Int!
+    baseExperience:  Int!
   }
 
   type Query {
-    getUser(id: String!): User
-    users(name: String): [User]
+    getPokemon(id: String!): Pokemon
+    pokemons(name: String): [Pokemon]
   }
 
   type Mutation {
-    addUser(name: String!, balance: Int!): User
+    addPokemon(name: String!, balance: Int!): Pokemon
   }
 `;
 
 const resolvers = {
     Query: {
         hello: () => "world",
-        getUser: async (_, { id }) => {
-            return await getData(MY_REST_URL + '/users/' + id);
+        getPokemon: async (_, { id }) => {
+            return await getData(MY_REST_URL + '/pokemon/' + id);
         },
 
-        users: async (_, { name }) => {
+        pokemon: async (_, { name }) => {
             var nameParams = '';
             if (name) {
                 nameParams = '?name=' + name;
             }
-            return await getData(MY_REST_URL + '/users' + nameParams);
+            return await getData(MY_REST_URL + '/pokemon' + nameParams);
         }
     },
 
     Mutation: {
-        addUser: async (_, { name, balance } ) => {
-          return await postData(MY_REST_URL + 'users', { name, balance } );
+        addPokemon: async (_, { name, balance } ) => {
+          return await postData(MY_REST_URL + 'pokemon', { name, balance } );
         }
     }
 };
